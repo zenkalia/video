@@ -4,6 +4,7 @@ require 'open-uri'
 require 'tty-screen'
 require 'yaml'
 require 'tty-pager'
+require 'cgi'
 
 require 'pastel'
 pastel = Pastel.new
@@ -37,8 +38,8 @@ yaml['channels'].each do |channel|
       next if inclusion && !video.title.include?(inclusion)
       next if exclusion && video.title.include?(exclusion)
 
-      videos << Video.new(video.title,
-        rss.channel.title,
+      videos << Video.new(CGI.unescapeHTML(video.title),
+        CGI.unescapeHTML(rss.channel.title),
         video.link,
         video.published.to_datetime)
     end
